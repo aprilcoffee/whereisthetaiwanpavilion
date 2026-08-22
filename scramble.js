@@ -3,7 +3,7 @@
    Self-contained; if it fails, the words simply stay as they are. */
 
 (function () {
-  var WORDS = /(Taiwan|TAIWAN|taiwan|台灣|台湾|타이완)/g;
+  var WORDS = /(Taiwan|台灣|臺灣|台湾|臺湾|타이완)/gi;
   var GLYPHS = "!<>-_\\/[]{}=+*^?#%$&@~;:";
   var SKIP = { SCRIPT: 1, STYLE: 1, TITLE: 1, TEXTAREA: 1, NOSCRIPT: 1 };
 
@@ -18,6 +18,9 @@
           if (SKIP[p.nodeName]) return NodeFilter.FILTER_REJECT;
           if (p.classList && p.classList.contains("scramble")) return NodeFilter.FILTER_REJECT;
           if (p.id === "list" || p.id === "bricks") return NodeFilter.FILTER_REJECT;
+          if (p.classList && p.classList.contains("contact")) return NodeFilter.FILTER_REJECT;
+          if (p.nodeName === "A" && (p.getAttribute("href") || "").indexOf("mailto:") === 0)
+            return NodeFilter.FILTER_REJECT;   // never scramble an address
           p = p.parentNode;
         }
         return NodeFilter.FILTER_ACCEPT;
