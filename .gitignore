@@ -1,9 +1,13 @@
-# working material, not part of the site
+# 只有網頁本體進版本：
+#   index.html  info.html  style.css  app.js  CNAME  favicon.svg  og.png
+
+# 說明文件 — 留在本機就好
+*.md
+
+# 工作素材
 information/
 _to_delete/
 
-# macOS
+# 系統 / 工具
 .DS_Store
-
-# local tooling
 .claude/
