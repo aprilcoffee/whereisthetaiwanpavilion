@@ -1,5 +1,9 @@
-# 只有網頁本體進版本：
-#   index.html  info.html  style.css  app.js  CNAME  favicon.svg  og.png
+# 網頁本體：
+#   index.html  info.html  press.html  style.css  app.js
+#   CNAME  favicon.svg  og.png  assets/img/*  assets/font/*.woff2
+
+# 字體原始檔 — 網站只載入 woff2，ttf 留在本機
+assets/font/*.ttf
 
 # 說明文件 — 留在本機就好
 *.md
