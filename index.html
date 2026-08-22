@@ -51,7 +51,8 @@
   </div>
 </div>
 
-<main class="grid">
+<main>
+<div class="grid">
 
   <!-- A — title, short account, link to sign -->
   <section class="zone zone-a">
@@ -105,9 +106,9 @@
     </a>
   </section>
 
-  <!-- C — links + poster -->
+  <!-- C — game -->
   <section class="zone zone-c">
-    <p class="buttons">
+    <nav class="buttons">
       <a class="btn" href="info.html">
         <span class="en">Full timeline →</span>
         <span class="zh">完整時間軸 →</span>
@@ -123,29 +124,44 @@
         <span class="zh">光州雙年展官網 ↗</span>
         <span class="ko">광주비엔날레 ↗</span>
       </a>
-    </p>
+    </nav>
 
-    <a class="asset" href="assets/img/poster.jpeg" download>
-      <img src="assets/img/poster.jpeg" width="1639" height="2048" loading="lazy"
-           alt="Poster: A Pavilion under Censorship — Artists’ Statement on 2026 Gwangju Biennale">
-    </a>
-    <p class="note">
-      <span class="en">Click to download. Free to print, post and share.</span>
-      <span class="zh">點圖下載。歡迎自由印製、張貼與轉發。</span>
-      <span class="ko">눌러서 내려받으세요. 자유롭게 인쇄·게시·공유할 수 있습니다.</span>
-    </p>
+    <div class="game" id="game">
+      <div class="board" id="board">
+        <div class="bricks" id="bricks"></div>
+        <div class="sparks" id="sparks"></div>
+        <div class="paddle" id="paddle"></div>
+        <div class="ball" id="ball"></div>
+
+        <div class="overlay" id="overlay">
+          <button class="game-start" id="game-start" type="button">
+            <span class="en">It’s easy to remove a name</span>
+            <span class="zh">抹掉一個名字很容易</span>
+            <span class="ko">이름을 지우는 건 쉽습니다</span>
+          </button>
+        </div>
+
+        <p class="hint" id="hint" hidden>
+          <span class="en">Tap to launch</span>
+          <span class="zh">點擊發射</span>
+          <span class="ko">눌러서 발사</span>
+        </p>
+      </div>
+    </div>
   </section>
 
-  <!-- B — split-flap count -->
-  <section class="zone zone-b" aria-label="Signature count">
-    <div id="flap" class="flap"></div>
-    <p class="flap-label">
-      <span class="en">signatures</span>
-      <span class="zh">人連署</span>
-      <span class="ko">명 서명</span>
-    </p>
-  </section>
+</div>
 
+<section class="count-band">
+  <div class="flap" id="flap"></div>
+  <p class="flap-label">
+    <span class="en">Total signatures</span>
+    <span class="zh">連署總人數</span>
+    <span class="ko">총 서명 수</span>
+  </p>
+</section>
+
+<div class="wrap">
   <!-- D — signatories -->
   <section class="zone zone-d">
     <h2>
@@ -158,8 +174,24 @@
     <p id="status" class="status"></p>
   </section>
 
+</div>
 </main>
 
+<footer class="site-footer">
+  <p class="contact">
+    <span class="en">Contact</span><span class="zh">聯絡我們</span><span class="ko">문의</span>
+    <a href="mailto:taiwanpaviliongwangju@gmail.com">taiwanpaviliongwangju@gmail.com</a>
+  </p>
+  <p class="thanks">
+    <span class="en">Thank you for supporting cultural freedom.</span>
+    <span class="zh">感謝您支持文化自由。</span>
+    <span class="ko">문화적 자유를 지지해 주셔서 감사합니다.</span>
+  </p>
+</footer>
+
+
 <script src="app.js"></script>
+<script src="scramble.js"></script>
+<script src="game.js"></script>
 </body>
 </html>

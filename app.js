@@ -101,7 +101,12 @@ function setFlap(n) {
 
 /* ---------- render ---------- */
 
+var shown = null;      // last count actually displayed
+
 function render(people) {
+  // a poll that comes back empty is treated as a bad read, not as "nobody signed"
+  if (!people.length && shown) return;
+
   var list = document.getElementById("list");
   list.textContent = "";
 
@@ -131,7 +136,10 @@ function render(people) {
   });
 
   document.getElementById("count").textContent = " (" + people.length + ")";
-  setFlap(people.length);
+  if (people.length !== shown) {          // only move the flaps when the number changes
+    shown = people.length;
+    setFlap(shown);
+  }
 }
 
 function setStatus(en, zh, ko) {
@@ -146,7 +154,6 @@ function setStatus(en, zh, ko) {
 }
 
 function load() {
-  setFlap(0);
   if (CSV_URL.indexOf("http") !== 0) {
     setStatus("The list is not connected yet.", "名單尚未連結。", "명단이 아직 연결되지 않았습니다.");
     return;
@@ -173,6 +180,7 @@ var POLL_MS = 30000;      // re-read the sheet every 30s while the tab is visibl
 
 initLang();
 if (document.getElementById("list")) {
+  setFlap(0);
   load();
   setInterval(function () { if (!document.hidden) load(); }, POLL_MS);
   document.addEventListener("visibilitychange", function () { if (!document.hidden) load(); });
