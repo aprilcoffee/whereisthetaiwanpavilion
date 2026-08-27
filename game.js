@@ -1,6 +1,5 @@
-/* "It's easy to remove a name" — a small breakout on the pavilion list.
-   Self-contained: if anything here fails the rest of the page is unaffected.
-   The real sign-up link lives in the letter; this is only a second route to it. */
+/* "It's easy to remove a name" — an archival breakout made during the dispute.
+   Self-contained: if anything here fails the rest of the page is unaffected. */
 
 (function () {
   var board = document.getElementById("board");

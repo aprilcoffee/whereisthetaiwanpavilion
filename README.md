@@ -3,8 +3,8 @@
 Static site. No build, no backend, no dependencies.
 
 ```
-index.html   the open letter, signature link, live signatory list
-info.html    background: timeline and sources
+index.html   restoration homepage and official signatory list
+info.html    event archive, statements, timeline, and interactive archive
 style.css
 app.js
 CNAME        whereisthetaiwanpavilion.com
@@ -14,27 +14,25 @@ favicon.svg
 
 ## Where the signatures come from
 
-The signature form is Tally: <https://tally.so/r/9qAjlY>
+Public sign-ups are closed. The site displays the finalized official signatory
+list from Google Sheet `192PiLQA7J_N8hA4VwinRCdySIv6eet9pkX7UHWvRW5o`.
 
-Tally writes each response into a Google Sheet
-(`1v-AJLfwnVQ6A7w-VrlO-FWN0B5818P9hzTBJdRJGlCE`). The site reads that sheet
-through Google's gviz endpoint, selecting only columns **D, E, F**
-(name / english name / occupation):
+The optional live-update path reads that sheet through Google's gviz endpoint,
+selecting only columns **D, E, F** (name / role / pavilion or organisation):
 
 ```
 https://docs.google.com/spreadsheets/d/<id>/gviz/tq?tqx=out:csv&tq=select D,E,F
 ```
 
-That URL is `CSV_URL` at the top of `app.js`. The page re-reads it every 30
-seconds while the tab is visible, and the split-flap counter animates when the
-number changes.
+`CSV_URL` and `LIVE_UPDATE` are at the top of `app.js`. `LIVE_UPDATE` defaults
+to `false`, so the finalized list is written directly in `index.html` and no
+request is made. Set it to `true` later to refresh the list from the sheet every
+30 seconds while the tab is visible.
 
 **The sheet must stay shared as "anyone with the link can view"** — that is what
 makes the endpoint readable. Which also means *everything on that sheet is
-public*. Right now it holds no email or contact column. **If you ever add one to
-the Tally form, it becomes public the moment the first response lands.** In that
-case, stop and put a mirror sheet in between (a separate spreadsheet pulling
-only D:F via `IMPORTRANGE`, published to web as CSV).
+public*. The site requests only D:F, so its email column is never fetched or
+rendered.
 
 ## Deploy
 
@@ -52,10 +50,10 @@ DNS setup at the registrar is in `DNS-GODADDY.md`.
 
 ## Editing
 
-The letter is in `index.html` — `<div class="en">`, `<div class="zh">`,
-`<div class="ko">`. The short timeline is in `index.html`; the full one and the
-sources are in `info.html`. Language switching is CSS only.
+The restoration message and official signatory list are in `index.html`. The
+timeline, both statements, and the archival game are in `info.html`. Press
+coverage stays in `press.html`. Language switching is CSS only.
 
-If the title or description changes, update them in **both** `index.html` and
-`info.html` (`<title>`, `description`, `og:title`, `og:description`) and
-regenerate `og.png` if the wording on the image is affected.
+If the title or description changes, update them in `index.html` and `info.html`
+(`title`, `description`, `og:title`, `og:description`) and regenerate `og.png`
+if the wording on the image is affected.

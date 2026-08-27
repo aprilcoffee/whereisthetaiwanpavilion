@@ -1,9 +1,9 @@
-/* Static petition page.
-   Reads the Tally responses sheet through Google's gviz endpoint, selecting
-   only columns D, E, F (name / english name / occupation). The sheet carries
-   no email column. See README.md */
+/* Official signatory list. The optional Google Sheet update path reads only
+   columns D, E, F (name / role / pavilion or organisation), never email.
+   Set LIVE_UPDATE to true only when the sheet should replace the static list. */
 
-var CSV_URL = "https://docs.google.com/spreadsheets/d/1v-AJLfwnVQ6A7w-VrlO-FWN0B5818P9hzTBJdRJGlCE/gviz/tq?tqx=out:csv&tq=select%20D,E,F";
+var CSV_URL = "https://docs.google.com/spreadsheets/d/192PiLQA7J_N8hA4VwinRCdySIv6eet9pkX7UHWvRW5o/gviz/tq?tqx=out:csv&tq=select%20D,E,F";
+var LIVE_UPDATE = false;
 
 /* ---------- language ---------- */
 
@@ -59,87 +59,70 @@ function parseCsv(text) {
 function toSignatories(rows) {
   var out = [];
   for (var i = 0; i < rows.length; i++) {
-    var name = (rows[i][0] || "").trim();
-    var latin = (rows[i][1] || "").trim();
-    var occupation = (rows[i][2] || "").trim();
+    var name = clean(rows[i][0]);
+    var role = clean(rows[i][1]).replace(/^participating\s+/i, "");
+    var category = classify(rows[i][2]);
 
-    // Never render anything that looks like an address, whatever the sheet holds.
-    if ((name + latin + occupation).indexOf("@") !== -1) continue;
-    if (!name && !latin) continue;
-    if (/^name\b/i.test(name) || /^occupation$/i.test(occupation)) continue;  // header row
+    if ((name + role + category).indexOf("@") !== -1) continue;
+    if (!name || /^untitled short answer field$/i.test(name)) continue;
 
-    out.push({ name: name || latin, latin: name ? latin : "", occupation: occupation });
+    out.push({ name: name, occupation: (role || "Other") + " · " + category });
   }
+  out.sort(function (a, b) { return a.name.localeCompare(b.name, undefined, { sensitivity: "base" }); });
   return out;
 }
 
+function clean(value) {
+  return (value || "").trim().replace(/^["“”']+|["“”']+$/g, "").trim();
+}
 
-/* ---------- B: split-flap counter ---------- */
-
-var FLAP_DIGITS = 4;      // pads to 4; grows on its own past 9999
-
-function setFlap(n) {
-  var box = document.getElementById("flap");
-  if (!box) return;
-  var digits = String(n).padStart(FLAP_DIGITS, "0").split("");
-
-  while (box.children.length > digits.length) box.removeChild(box.lastChild);
-  while (box.children.length < digits.length) {
-    var d = document.createElement("span");
-    d.className = "digit";
-    box.appendChild(d);
-  }
-  digits.forEach(function (ch, i) {
-    var el = box.children[i];
-    if (el.textContent === ch) return;
-    el.textContent = ch;
-    el.classList.remove("flip");
-    void el.offsetWidth;          // restart the animation
-    el.classList.add("flip");
-  });
+function classify(value) {
+  var raw = clean(value);
+  var lower = raw.toLowerCase();
+  if (!raw) return "Other";
+  if (lower === "main" || lower === "main exhibition") return "Main";
+  if (lower.indexOf("poland") !== -1) return "Poland Pavilion";
+  if (lower.indexOf("malta") !== -1) return "Malta Pavilion";
+  if (lower.indexOf("indonesia") !== -1) return "Indonesia Pavilion";
+  if (lower.indexOf("italy") !== -1 || lower.indexOf("italian") !== -1) return "Italy Pavilion";
+  if (lower.indexOf("taiwan") !== -1) return "Taiwan Pavilion";
+  if (lower.indexOf("brazil") !== -1 || lower.indexOf("brazilian") !== -1) return "Brazil Pavilion";
+  if (lower.indexOf("france") !== -1) return "France Pavilion";
+  if (lower.indexOf("asakusa") !== -1) return "Asakusa";
+  if (lower.indexOf("1646") !== -1) return "1646";
+  if (lower.indexOf("uccn") !== -1) return "UCCN";
+  if (lower.indexOf("koganecho") !== -1) return "Koganecho";
+  if (lower.indexOf("ivae") !== -1) return "IVAE";
+  if (lower.indexOf("stateless") !== -1) return "Stateless";
+  return raw;
 }
 
 /* ---------- render ---------- */
 
-var shown = null;      // last count actually displayed
-
 function render(people) {
-  // a poll that comes back empty is treated as a bad read, not as "nobody signed"
-  if (!people.length && shown) return;
-
   var list = document.getElementById("list");
+
+  // a poll that comes back empty is treated as a bad read, not as "nobody signed"
+  if (!people.length && list.children.length) return;
+
   list.textContent = "";
 
   people.forEach(function (p) {
     var li = document.createElement("li");
-    var left = document.createElement("span");
+    li.tabIndex = 0;
 
     var n = document.createElement("span");
     n.className = "name";
     n.textContent = p.name;
-    left.appendChild(n);
-
-    if (p.latin) {
-      var l = document.createElement("span");
-      l.className = "latin";
-      l.textContent = " " + p.latin;
-      left.appendChild(l);
-    }
 
     var occ = document.createElement("span");
     occ.className = "occupation";
     occ.textContent = p.occupation;
 
-    li.appendChild(left);
+    li.appendChild(n);
     li.appendChild(occ);
     list.appendChild(li);
   });
-
-  document.getElementById("count").textContent = " (" + people.length + ")";
-  if (people.length !== shown) {          // only move the flaps when the number changes
-    shown = people.length;
-    setFlap(shown);
-  }
 }
 
 function setStatus(en, zh, ko) {
@@ -180,8 +163,9 @@ var POLL_MS = 30000;      // re-read the sheet every 30s while the tab is visibl
 
 initLang();
 if (document.getElementById("list")) {
-  setFlap(0);
-  load();
-  setInterval(function () { if (!document.hidden) load(); }, POLL_MS);
-  document.addEventListener("visibilitychange", function () { if (!document.hidden) load(); });
+  if (LIVE_UPDATE) {
+    load();
+    setInterval(function () { if (!document.hidden) load(); }, POLL_MS);
+    document.addEventListener("visibilitychange", function () { if (!document.hidden) load(); });
+  }
 }
