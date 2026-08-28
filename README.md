@@ -5,6 +5,7 @@ Static site. No build, no backend, no dependencies.
 ```
 index.html   restoration homepage and official signatory list
 info.html    event archive, statements, timeline, and interactive archive
+llms.txt     AI-readable project guide and source boundaries
 style.css
 app.js
 CNAME        whereisthetaiwanpavilion.com
@@ -50,9 +51,10 @@ DNS setup at the registrar is in `DNS-GODADDY.md`.
 
 ## Editing
 
-The restoration message and official signatory list are in `index.html`. The
-timeline, both statements, and the archival game are in `info.html`. Press
-coverage stays in `press.html`. Language switching is CSS only.
+The restoration message, acknowledgement list, and official signatory list are
+in `index.html`. The timeline, both statements, and the archival game are in
+`info.html`. Press coverage stays in `press.html`. Language switching is CSS
+only.
 
 If the title or description changes, update them in `index.html` and `info.html`
 (`title`, `description`, `og:title`, `og:description`) and regenerate `og.png`

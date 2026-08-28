@@ -114,7 +114,7 @@ body {
 .zone-a { grid-area:a; }
 .zone-b { grid-area:b; }
 .zone-c { grid-area:c; }
-.zone-d { padding-top:1.5rem; border-top:1px solid var(--ink); }
+.zone-d { padding-top:1.5rem; }
 
 
 /* text */
@@ -147,12 +147,25 @@ a { color:var(--red); text-underline-offset:.22em; text-decoration-thickness:.06
 .home-message .buttons { grid-column:1; grid-row:1; align-self:center; margin:0; }
 .home .acknowledgements { margin-top:clamp(7rem, 14vw, 14rem); padding-top:1.25rem; border-top:1px solid var(--ink); }
 .acknowledgements h2 { display:table; margin:-1.85rem 0 1.25rem; padding:0 .6rem 0 0; background:var(--paper); }
-.acknowledgements .placeholder { max-width:38rem; }
+.acknowledgements-intro { max-width:42rem; margin:0 0:2.5rem; font-size:clamp(1.05rem, 1.8vw, 1.35rem); }
+.acknowledgement-groups { display:grid; gap:1.5rem; }
+.acknowledgement-group { padding-top:.8rem; border-top:1px solid var(--rule); }
+.acknowledgement-group h3 { margin:0 0:1.1rem; font-size:1rem; }
+.acknowledgement-list { list-style:none; display:grid; grid-template-columns:repeat(auto-fit, minmax(min(100%, 20rem), 1fr)); gap:0 1.5rem; margin:0; padding:0; }
+.acknowledgement-list li { padding:.7rem 0; border-bottom:1px solid var(--rule); font-size:.875rem; line-height:1.4; }
+.acknowledgement-list a { text-decoration:none; }
+.acknowledgement-list a:hover { text-decoration:underline; }
+.source-note { display:block; margin-top:.35rem; color:var(--muted); font-size:.75rem; }
+.acknowledgements-social { max-width:52rem; margin:2.5rem 0 0; color:var(--muted); font-size:.875rem; }
 .placeholder { color:var(--muted); font-style:italic; }
-.open-letter { max-width:62rem; margin-top:clamp(5rem, 10vw, 10rem); }
-.open-letter-date { margin:0 0:.3rem; color:var(--red); font-family:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,monospace; font-size:.8125rem; }
+.open-letter.wrap { max-width:62rem; margin-top:10rem; }
+.open-letter-date { margin:1.25rem 0 2.5rem; color:var(--ink); font-family:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,monospace; font-size:.8125rem; }
 .open-letter-body { max-width:52rem; }
-.open-letter-body h3, .open-letter-signatories h3 { margin:0 0:1.25rem; font-size:clamp(1.5rem, 3vw, 2.5rem); line-height:1.05; letter-spacing:-.025em; }
+.open-letter > h2, .signatories-heading { display:flex; align-items:center; gap:1rem; margin:0; font-size:clamp(1.2rem, 2.3vw, 2rem); line-height:1.1; letter-spacing:-.02em; text-transform:none; white-space:nowrap; }
+.open-letter > h2::before, .open-letter > h2::after, .signatories-heading::before, .signatories-heading::after { content:""; height:1px; flex:1; background:var(--ink); }
+.signatories-heading { margin-bottom:1.5rem; font-size:clamp(.9rem, 1.5vw, 1.25rem); }
+.open-letter-body h3 { margin:0 0:2rem; font-size:clamp(.95rem, 1.5vw, 1.25rem); line-height:1.2; letter-spacing:.04em; text-transform:uppercase; }
+.open-letter-signatories h3 { margin:0 0:1.25rem; font-size:.8125rem; font-weight:600; letter-spacing:.06em; line-height:1.2; text-transform:uppercase; }
 .open-letter-signed { margin-top:1.75rem; font-weight:600; }
 
 /* campaign material */
@@ -293,6 +306,9 @@ a { color:var(--red); text-underline-offset:.22em; text-decoration-thickness:.06
 .archive-head { max-width:54rem; }
 .archive-head h1 { font-size:clamp(2rem, 5vw, 4.5rem); line-height:1.05; letter-spacing:-.025em; }
 .archive-marquee .marquee-item { font-size:clamp(1rem, 2.4vw, 1.7rem); color:var(--ink); }
+@supports (-webkit-text-stroke:1px var(--ink)) {
+  .archive-marquee .marquee-item { color:transparent; -webkit-text-stroke:1px var(--ink); }
+}
 .statement { max-width:58rem; }
 .statement header { border-top:1px solid var(--ink); padding-top:1rem; }
 .statement-date { margin:0 0:.3rem; color:var(--red); font-family:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,monospace; font-size:.8125rem; }
@@ -377,6 +393,8 @@ section + section { margin-top:3rem; }
   .home-message > div { font-size:1.1rem; text-align:left; }
   .home-message .buttons { margin-top:2.5rem; }
   .home .acknowledgements { margin-top:6rem; }
+  .acknowledgement-groups { gap:1.5rem; }
+  .acknowledgement-list { grid-template-columns:1fr; }
   .archive-head h1 { font-size:2rem; }
   .archive-game .board { aspect-ratio:4 / 5; }
   #list { columns:1; }
