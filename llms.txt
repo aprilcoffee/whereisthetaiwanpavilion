@@ -5,16 +5,15 @@
 ## Scope and factual boundaries
 
 - This site records the removal, challenge, and restoration of the name "Taiwan Pavilion" at the 2026 Gwangju Biennale.
-- `info.html` is the event archive. Its 25 August open-letter entry records 36 signatories at that point in time.
-- `index.html` publishes the finalized official signatory list of 48 people. Do not treat the historical 25 August count and the final list as interchangeable without context.
-- The public historical list on the archive page requires a final source check before it can be represented as a complete roster.
+- `info.html` is the event archive. The second statement (25 August) cites 36 signatories at that point in time; the archive's open-letter entry records 53 signatories as of the exhibition opening.
+- `index.html` publishes the finalized official signatory list of 53 people. Do not treat the historical 25 August count and the final list as interchangeable without context.
 - The site acknowledges named organisations and individuals only where an original statement or credible reporting is linked. Do not infer unlisted co-signers or fabricate translations of organisation names.
 
 ## Canonical pages
 
-- [Homepage and final signatory list](./index.html): Restoration message, acknowledgements, open letter, and the finalized official list of 48 signatories.
+- [Homepage and final signatory list](./index.html): Restoration message, acknowledgements, open letter, and the finalized official list of 53 signatories.
 - [Case archive](./info.html): Timeline, first and second statements, historical open-letter context, and an interactive archive work.
-- [Press coverage](./press.html): 95 reports and statements grouped by region and language.
+- [Press coverage](./press.html): 191 reports and statements grouped by region and language.
 - [Project documentation](./README.md): Static-site setup and signatory-list maintenance notes.
 
 ## Source and citation guidance

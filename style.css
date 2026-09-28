@@ -321,7 +321,6 @@ a { color:var(--red); text-underline-offset:.22em; text-decoration-thickness:.06
 .historical-signatories summary { cursor:pointer; font-weight:600; }
 .historical-signatories p { margin:.75rem 0 0; font-size:.875rem; color:var(--muted); }
 .archive-game { max-width:none; }
-.archive-game .note { max-width:42rem; margin-bottom:1.25rem; }
 .archive-game .game { max-width:none; }
 .archive-game .board { aspect-ratio:3 / 2; }
 @media (min-width:48.0625rem) {
